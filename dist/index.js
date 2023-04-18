@@ -1,6 +1,7 @@
 const formDiv = document.getElementById("addSpaceship");
 const form = document.getElementById("formSpaceship");
 let spaceshipList = [];
+let crew = [];
 function createLabel(htmlFor, text) {
     const label = document.createElement('label');
     label.htmlFor = htmlFor;
@@ -23,9 +24,44 @@ function setInputValue(id, value) {
     inputValue.value = value;
     return inputValue;
 }
+function setInMission(id, mission) {
+    const space = spaceshipList.filter((s) => s.id === id)[0];
+    space.inMission = mission;
+    const inMission = document.getElementById(`mission-${id}`);
+    inMission.innerText = `Em missão: ${getInMission(id) === true ? "Sim" : "Não"}`;
+}
 function getInputValue(id) {
     const inputValue = document.querySelector(`#${id}`).value;
     return inputValue;
+}
+function getInMission(id) {
+    let inMissionSpaceship = false;
+    const space = spaceshipList.filter((s) => s.id === id)[0];
+    space.inMission === true ? inMissionSpaceship = true : inMissionSpaceship = false;
+    if (inMissionSpaceship) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+function addCrewMember(spaceship) {
+    const name = prompt("Qual o nome do tripulante?");
+    const age = parseFloat(prompt("Qual a idade do tripulante?"));
+    console.log(crew);
+    const crewMember = {
+        id: crew.length,
+        name,
+        age
+    };
+    const member = spaceshipList.filter((s) => s.id === spaceship.id)[0];
+    if (crew.length > spaceship.crewLimit) {
+        alert("Limite de tripulantes atingido!");
+        return;
+    }
+    crew.push(crewMember);
+    spaceshipList[member.id].crew.push(crewMember);
+    addCrewList(spaceship, crewMember);
 }
 function addFormSpaceship() {
     formDiv.style.display = "grid";
@@ -55,6 +91,7 @@ function addListSpaceship(spaceship) {
     const ul = document.getElementById("spaceshipsList");
     const li = document.createElement("li");
     li.classList.add("list-spaces");
+    li.id = `spaceship-${spaceship.id}`;
     const name = document.createElement("h4");
     name.innerText = `Nave: ${spaceship.name}`;
     const pilot = document.createElement("h4");
@@ -62,13 +99,55 @@ function addListSpaceship(spaceship) {
     const maxCrew = document.createElement("h4");
     maxCrew.innerText = `Máximo de tripulantes: ${spaceship.crewLimit}`;
     const inMission = document.createElement("h4");
-    inMission.innerText = "Em missão: Não";
+    inMission.innerText = `Em missão: ${getInMission(spaceship.id) === true ? "Sim" : "Não"}`;
+    inMission.id = `mission-${spaceship.id}`;
     const crew = document.createElement("h4");
     crew.innerText = "Lista de tripulantes:";
     const crewList = document.createElement("ul");
-    crewList.id = `spaceship-${spaceship.id}`;
-    li.append(name, pilot, maxCrew, inMission, crew, crewList);
+    crewList.id = `crewlist-${spaceship.id}`;
+    crewList.classList.add("crew-list");
+    const removeButton = document.createElement("button");
+    removeButton.innerText = "Remover";
+    removeButton.classList.add("btn");
+    removeButton.addEventListener(("click"), () => removeSpaceship(spaceship));
+    const addCrew = document.createElement("button");
+    addCrew.innerText = "Adicionar tripulante";
+    addCrew.classList.add("btn");
+    addCrew.addEventListener(("click"), () => addCrewMember(spaceship));
+    const addInMission = document.createElement("button");
+    addInMission.innerText = "Iniciar missão";
+    addInMission.classList.add("btn");
+    addInMission.addEventListener("click", () => {
+        if (getInMission(spaceship.id) === false) {
+            setInMission(spaceship.id, true);
+        }
+        else {
+            alert("Missão já foi iniciada!");
+        }
+    });
+    li.append(name, pilot, maxCrew, inMission, crew, crewList, removeButton, addCrew, addInMission);
     ul.appendChild(li);
+}
+function addCrewList(spaceship, member) {
+    const ul = document.getElementById(`crewlist-${spaceship.id}`);
+    const li = document.createElement("li");
+    li.classList.add("crew-members");
+    li.id = `crew-${member.id}`;
+    const name = document.createElement("p");
+    name.innerText = `${member.name} |`;
+    const age = document.createElement("p");
+    age.innerText = `${member.age} anos`;
+    li.append(name, age);
+    ul.appendChild(li);
+}
+function removeSpaceship(spaceship) {
+    if (spaceshipList.includes(spaceship)) {
+        spaceshipList.splice(spaceshipList.indexOf(spaceship), 1);
+        const ul = document.getElementById("spaceshipsList");
+        const spaceScreen = document.querySelector(`#spaceship-${spaceship.id}`);
+        ul.removeChild(spaceScreen);
+        return;
+    }
 }
 form.addEventListener("submit", (e) => {
     e.preventDefault();

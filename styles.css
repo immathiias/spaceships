@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #bec1d3;
+    background-color: #d3d3d3;
 }
 
 ul {
@@ -14,7 +14,7 @@ ul {
 
 #header {
     display: flex;
-    background-color: #1f1f1f;
+    background-color: #3f3f3f;
     padding: 1.4rem 4rem 1.4rem 4rem;
 
     justify-content: space-between;
@@ -72,6 +72,9 @@ ul {
     opacity: 70%;
 }
 
+.list-spaces .btn {
+    background-color: #4446c5;
+}
 
 #formSpaceship {
     display: grid;
@@ -82,6 +85,7 @@ ul {
     margin-top: .4rem;
     font-weight: 600;
 }
+
 .form-input {
     outline: none;
     background-color: transparent;
@@ -104,7 +108,7 @@ ul {
     flex-wrap: wrap;
 
     justify-content: center;
-    align-items: center;
+    align-items: start;
     gap: .6rem;
 }
 
@@ -115,8 +119,46 @@ ul {
     width: 20rem;
     height: auto;
 
-    background-color: #9699a8;
+    background-color: #e0e0e0;
+
     padding: 1rem;
     border-radius: 4px;
     gap: .2rem;
+}
+
+.crew-list {
+    display: grid;
+    gap: .4rem;
+
+    justify-content: center;
+    align-items: center;
+
+    margin-top: .4rem;
+    margin-bottom: 1rem;
+}
+
+.crew-members {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: .3rem;
+    padding: .4rem 2rem .4rem 2rem;
+    border-radius: 4px;
+
+    background-color: #3f3f3f;
+    color: white;
+}
+
+
+@media (max-width: 500px) {
+    #header {
+        padding: 1.4rem 1rem 1.4rem 1rem;
+
+        font-size: 12px;
+    }
+
+    .list-spaces {
+        width: 15rem;
+    }
 }
