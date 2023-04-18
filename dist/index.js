@@ -1,64 +1,99 @@
+const formDiv = document.getElementById("addSpaceship");
 const form = document.getElementById("formSpaceship");
+let spaceshipList = [];
+function createLabel(htmlFor, text) {
+    const label = document.createElement('label');
+    label.htmlFor = htmlFor;
+    label.innerText = text;
+    label.classList.add('form-label');
+    return label;
+}
+function createInput(id, name, type, placeholder) {
+    const input = document.createElement('input');
+    input.classList.add('form-input');
+    input.id = id;
+    input.name = name;
+    input.type = type;
+    input.placeholder = placeholder;
+    input.required = true;
+    return input;
+}
+function setInputValue(id, value) {
+    const inputValue = document.querySelector(`#${id}`);
+    inputValue.value = value;
+    return inputValue;
+}
+function getInputValue(id) {
+    const inputValue = document.querySelector(`#${id}`).value;
+    return inputValue;
+}
 function addFormSpaceship() {
-    form.style.display = "grid";
-    document.getElementById("division").style.display = "block";
+    formDiv.style.display = "grid";
     document.getElementById("buttonAdd").style.display = "none";
-    const nameLabel = document.createElement("label");
-    nameLabel.textContent = "Nome:";
-    nameLabel.htmlFor = "name";
-    nameLabel.classList.add("form-label");
+    if (form.hasChildNodes()) {
+        return;
+    }
+    const nameLabel = createLabel("name", "Nome da nave:");
     form.appendChild(nameLabel);
-    const nameInput = document.createElement("input");
-    nameInput.type = "text";
-    nameInput.id = "nameSpaceship";
-    nameInput.name = "name";
-    nameInput.classList.add("form-input");
+    const nameInput = createInput("nameSpaceship", "name", "text", "Ex: Millenium Falcon");
     form.appendChild(nameInput);
-    const pilotLabel = document.createElement("label");
-    pilotLabel.textContent = "Piloto:";
-    pilotLabel.htmlFor = "pilot";
-    pilotLabel.classList.add("form-label");
+    const pilotLabel = createLabel("pilot", "Piloto:");
     form.appendChild(pilotLabel);
-    const pilotInput = document.createElement("input");
-    pilotInput.type = "text";
-    pilotInput.id = "pilotSpaceship";
-    pilotInput.name = "pilot";
-    pilotInput.classList.add("form-input");
+    const pilotInput = createInput("pilotSpaceship", "pilot", "text", "Ex: Han Solo");
     form.appendChild(pilotInput);
-    const maxCrewLabel = document.createElement("label");
-    maxCrewLabel.textContent = "Máximo de tripulantes:";
-    maxCrewLabel.htmlFor = "maxCrew";
-    maxCrewLabel.classList.add("form-label");
+    const maxCrewLabel = createLabel("maxCrew", "Máximo de tripulantes:");
     form.appendChild(maxCrewLabel);
-    const maxCrewInput = document.createElement("input");
-    maxCrewInput.type = "number";
-    maxCrewInput.id = "maxCrewSpaceship";
-    maxCrewInput.name = "maxCrew";
-    maxCrewInput.classList.add("form-input");
+    const maxCrewInput = createInput("maxCrewSpaceship", "maxCrew", "number", "Ex: 4");
     form.appendChild(maxCrewInput);
     const btn = document.createElement("button");
     btn.type = "submit";
     btn.textContent = "Criar";
-    btn.classList.add("form-btn");
+    btn.classList.add("btn");
     form.appendChild(btn);
 }
-function removeFormSpaceship() {
+function addListSpaceship(spaceship) {
+    const ul = document.getElementById("spaceshipsList");
+    const li = document.createElement("li");
+    li.classList.add("list-spaces");
+    const name = document.createElement("h4");
+    name.innerText = `Nave: ${spaceship.name}`;
+    const pilot = document.createElement("h4");
+    pilot.innerText = `Piloto: ${spaceship.pilot}`;
+    const maxCrew = document.createElement("h4");
+    maxCrew.innerText = `Máximo de tripulantes: ${spaceship.crewLimit}`;
+    const inMission = document.createElement("h4");
+    inMission.innerText = "Em missão: Não";
+    const crew = document.createElement("h4");
+    crew.innerText = "Lista de tripulantes:";
+    const crewList = document.createElement("ul");
+    crewList.id = `spaceship-${spaceship.id}`;
+    li.append(name, pilot, maxCrew, inMission, crew, crewList);
+    ul.appendChild(li);
 }
 form.addEventListener("submit", (e) => {
     e.preventDefault();
+    const name = getInputValue("nameSpaceship");
+    setInputValue("nameSpaceship", "");
+    const pilot = getInputValue("pilotSpaceship");
+    setInputValue("pilotSpaceship", "");
+    const maxCrew = Number(getInputValue("maxCrewSpaceship"));
+    setInputValue("maxCrewSpaceship", "");
+    createSpaceship(name, pilot, maxCrew);
     document.getElementById("buttonAdd").style.display = "block";
-    document.getElementById("division").style.display = "none";
-    form.style.display = "none";
+    formDiv.style.display = "none";
 });
 function createSpaceship(name, pilot, crewLimit, crew, inMission) {
     const spaceship = {
+        id: spaceshipList.length,
         name,
         pilot,
         crewLimit,
         crew: [],
         inMission: false
     };
-    alert(`A nave ${spaceship.name} comandada pelo piloto ${spaceship.pilot} criada e está pronta para ser enviada a uma missão!`);
+    spaceshipList.push(spaceship);
+    addListSpaceship(spaceship);
+    alert(`A nave ${spaceship.name} comandada pelo piloto ${spaceship.pilot} foi criada e está pronta para ser enviada a uma missão!`);
     return spaceship;
 }
 // const spaceshipName = prompt('Insira o nome da nave:')

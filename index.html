@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,26 +9,35 @@
 
     <title>Declarando Tipos</title>
 </head>
+
 <body>
 
     <header id="header">
         <h3>Declarando Tipos</h3>
+
+        <div class="sendForm">
+            <h4>Adicionar nave</h4>
+            <button id="buttonAdd" class="btn" onclick=addFormSpaceship()>Clique aqui</button>
+        </div>
     </header>
 
     <main id="main">
-        <div class="addSpaceship">
-            <div class="sendForm">
-                <h3>Adicionar nave</h3>
-                <button id="buttonAdd" onclick=addFormSpaceship()>Clique aqui</button>
-            </div>
-
-            <div id="division"></div>
-
+        <div id="addSpaceship">
+            <h2>Adicionar uma nova nave</h2>
             <form id="formSpaceship"></form>
 
         </div>
+
+        <div class="spaceships">
+            <h2>Naves:</h2>
+
+            <ul id="spaceshipsList">
+
+            </ul>
+        </div>
     </main>
-    
+
     <script src="./dist/index.js"></script>
 </body>
+
 </html>
