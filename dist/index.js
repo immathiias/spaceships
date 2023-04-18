@@ -1,7 +1,6 @@
 const formDiv = document.getElementById("addSpaceship");
 const form = document.getElementById("formSpaceship");
 let spaceshipList = [];
-let crew = [];
 function createLabel(htmlFor, text) {
     const label = document.createElement('label');
     label.htmlFor = htmlFor;
@@ -46,20 +45,18 @@ function getInMission(id) {
     }
 }
 function addCrewMember(spaceship) {
+    const member = spaceshipList.filter((s) => s.id === spaceship.id)[0];
     const name = prompt("Qual o nome do tripulante?");
     const age = parseFloat(prompt("Qual a idade do tripulante?"));
-    console.log(crew);
     const crewMember = {
-        id: crew.length,
+        id: member.crew.length,
         name,
         age
     };
-    const member = spaceshipList.filter((s) => s.id === spaceship.id)[0];
-    if (crew.length > spaceship.crewLimit) {
+    if (member.crew.length >= spaceship.crewLimit) {
         alert("Limite de tripulantes atingido!");
         return;
     }
-    crew.push(crewMember);
     spaceshipList[member.id].crew.push(crewMember);
     addCrewList(spaceship, crewMember);
 }
@@ -109,10 +106,12 @@ function addListSpaceship(spaceship) {
     const removeButton = document.createElement("button");
     removeButton.innerText = "Remover";
     removeButton.classList.add("btn");
+    removeButton.classList.add("remove-btn");
     removeButton.addEventListener(("click"), () => removeSpaceship(spaceship));
     const addCrew = document.createElement("button");
     addCrew.innerText = "Adicionar tripulante";
     addCrew.classList.add("btn");
+    addCrew.classList.add("crew-btn");
     addCrew.addEventListener(("click"), () => addCrewMember(spaceship));
     const addInMission = document.createElement("button");
     addInMission.innerText = "Iniciar missão";
@@ -120,6 +119,7 @@ function addListSpaceship(spaceship) {
     addInMission.addEventListener("click", () => {
         if (getInMission(spaceship.id) === false) {
             setInMission(spaceship.id, true);
+            alert("Missão iniciada!");
         }
         else {
             alert("Missão já foi iniciada!");

@@ -72,8 +72,12 @@ ul {
     opacity: 70%;
 }
 
-.list-spaces .btn {
-    background-color: #4446c5;
+.remove-btn {
+    background-color: #b30000;
+}
+
+.crew-btn {
+    background-color: #4480c5;
 }
 
 #formSpaceship {
